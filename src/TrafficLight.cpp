@@ -13,9 +13,9 @@ T MessageQueue<T>::receive()
     // The received object should then be returned by the receive function. 
     std::unique_lock<std::mutex> uLock(_mutex);
     _cond.wait( uLock, [this] { return !_queue.empty();});
-    T msg = std::move( _queue.back() );
-    _queue.pop_back();
-    return msg;         // all copied from the exercies notebook - don't understand anything.
+    T msg = std::move( _queue.front() );
+    _queue.pop_front();
+    return msg;         // yes, Udacity workspace code had retrieval of last elem of "queue"! Tks wolegechu
 }
 
 template <typename T>
@@ -74,7 +74,7 @@ void TrafficLight::cycleThroughPhases()
     while( true ){
         // "that measures the time" - are we measuring something that exists or do we plan to create a delay?
         std::this_thread::sleep_for(std::chrono::milliseconds(4000 + (int) ( 2000 * ((float) rand()) / (float) RAND_MAX ) ) );
-        if ( red == _currentPhase )
+        if ( red == _currentPhase )     // wolegechu has an elegant toggle using a conditional
             _currentPhase = green;
         else
             _currentPhase = red;
