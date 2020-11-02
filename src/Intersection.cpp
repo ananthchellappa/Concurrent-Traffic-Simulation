@@ -91,7 +91,10 @@ void Intersection::addVehicleToQueue(std::shared_ptr<Vehicle> vehicle)
     //     _trafficLight.waitForGreen();  
 
     // looking at wolegechu's GitHub  -- this is not it, problem still persists
-    if( !trafficLightIsGreen() )
+    // if( !trafficLightIsGreen() )
+    //     _trafficLight.waitForGreen();
+
+    while( !trafficLightIsGreen() )     // suggestion from Igor K
         _trafficLight.waitForGreen();
 
     std::cout << "Intersection #" << _id << ": Vehicle #" << vehicle->getID() << " is granted entry." << std::endl;
